@@ -5,6 +5,7 @@ namespace App\Shared\Infrastructure\Http;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ApiRequest
 {
@@ -15,7 +16,7 @@ class ApiRequest
         private readonly LoggerInterface     $logger
     ) {}
 
-    public function get(string $url, array $options = [])
+    public function get(string $url, array $options = []): ?ResponseInterface
     {
         try {
             $this->logger->info('HTTP_CLIENT_REQUEST', ["url" => $url, "options" => $options]);
