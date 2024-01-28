@@ -17,9 +17,11 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
             - '../src/Kernel.php'
-
+    App\Entrypoint\Controller\:
+        autowire: true
+        autoconfigure: true
+        resource: '../src/Entrypoint/Controller'
+        tags: ['controller.service_arguments']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
