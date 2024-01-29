@@ -8,7 +8,7 @@ use App\Application\Transform\BeerRetrieverTransform;
 class BeerRetrieverHandler
 {
     public function __construct(
-        private readonly BeerRetriever          $retriever,
+        private readonly BeerRetriever $retriever,
         private readonly BeerRetrieverTransform $transform
     ) {}
 

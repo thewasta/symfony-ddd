@@ -15,9 +15,9 @@ class BeerRetrieverTransform
         $response = [];
         foreach ($transform as $item) {
             $response[] = [
-                "price" => $item->price(),
-                "name" => $item->name(),
-                "image" => $item->image()
+                "price" => $item->price()->value(),
+                "name" => $item->name()->value(),
+                "image" => $item->image()->value()
             ];
         }
         return $response;
