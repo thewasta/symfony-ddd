@@ -6,8 +6,8 @@
 parameters:
 
 services:
-    __instanceof:
-        App\Shared\Domain\Command\MessageAppBusInterface:
+    _instanceof:
+        App\Shared\Domain\Command\AppCommandHandler:
             tags: [ { name: messenger.message_handler } ]
     _defaults:
         autowire: false      # Automatically injects dependencies in your services.
