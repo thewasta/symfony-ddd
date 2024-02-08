@@ -2,8 +2,6 @@ doctrine:
     dbal:
         connections:
             write:
-                url: '%env(DATABASE_URL)%)'
-            read:
                 url: '%env(DATABASE_URL)%'
 
 when@test:

@@ -31,11 +31,13 @@ services:
         autoconfigure: true
         resource: '../src/Entrypoint/Controller'
         tags: ['controller.service_arguments']
-    App\Infrastructure\:
+    App\Infrastructure\Persistence\Mysql\Repository\:
         autoconfigure: true
         autowire: true
         public: true
-        resource: '../src/Infrastructure'
+        resource: '../src/Infrastructure/Persistence/Mysql/Repository'
+        bind:
+            Doctrine\DBAL\Connection $connection: '@doctrine_connection.dbal'
     App\Shared\Infrastructure\:
         autowire: true
         autoconfigure: true
@@ -43,3 +45,7 @@ services:
         resource: '../src/Shared/Infrastructure'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+imports:
+    - { resource: app/middleware.yaml }
+    - { resource: app/connections.yaml }
