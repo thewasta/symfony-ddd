@@ -4,6 +4,7 @@ namespace App\Application\Query;
 
 use App\Application\Service\Beer\BeerRetriever;
 use App\Application\Transform\BeerRetrieverTransform;
+use App\Shared\Domain\Command\MessageBusResponse;
 
 class BeerRetrieverHandler
 {
@@ -12,10 +13,10 @@ class BeerRetrieverHandler
         private readonly BeerRetrieverTransform $transform
     ) {}
 
-    public function __invoke(BeerRetrieverQuery $command): array
+    public function __invoke(BeerRetrieverQuery $command): MessageBusResponse
     {
         $beers = $this->retriever->__invoke();
 
-        return $this->transform->transform($beers);
+        return MessageBusResponse::create($this->transform->transform($beers));
     }
 }
