@@ -2,18 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Command;
+namespace App\Shared\Infrastructure\MessageBus\Command;
 
 use App\Shared\Domain\Command\MessageAppBusInterface;
 use App\Shared\Domain\Command\MessageBusResponse;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class AppMessageAppBus implements MessageAppBusInterface
+class MessageAppBus implements MessageAppBusInterface
 {
     use HandleTrait;
 
-    public function __construct(private readonly MessageBusInterface $bus) {}
+    public function __construct(private readonly MessageBusInterface $bus)
+    {
+        $this->messageBus = $bus;
+    }
 
     public function dispatch($command): void
     {
