@@ -2,7 +2,7 @@
 
 namespace App\Tests\Integration\Application\Query;
 
-use App\Application\Query\BeerRetrieverHandler;
+use App\Application\Handler\BeerRetrieverQueryHandler;
 use App\Application\Query\BeerRetrieverQuery;
 use App\Application\Service\Beer\BeerRetriever;
 use App\Application\Transform\BeerRetrieverTransform;
@@ -11,13 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class BeerRetrieverHandlerTest extends KernelTestCase
 {
-    private BeerRetrieverHandler $useCase;
+    private BeerRetrieverQueryHandler $useCase;
 
     protected function setUp(): void
     {
         self::bootKernel();
         $retriever = self::getContainer()->get(BeerRetriever::class);
-        $this->useCase = new BeerRetrieverHandler(
+        $this->useCase = new BeerRetrieverQueryHandler(
             $retriever,
             new BeerRetrieverTransform()
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entrypoint\Controller;
 
-use App\Application\Query\BeerCreateCommand;
+use App\Application\Command\BeerCreateCommand;
 use App\Shared\Domain\Command\MessageAppBusInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

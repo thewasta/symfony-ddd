@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Domain\Beers\Model;
 
+use App\Domain\Beers\Events\BeerCreated;
 use App\Domain\Beers\Model\ValueObject\BeerId;
 use App\Domain\Beers\Model\ValueObject\BeerImage;
 use App\Domain\Beers\Model\ValueObject\BeerName;
@@ -24,7 +26,10 @@ final class Beer extends Model
         BeerImage $image,
         BeerId $id
     ): self {
-        return new self($price, $name, $image, $id);
+        $beer = new self($price, $name, $image, $id);
+
+        $beer->publish(new BeerCreated());
+        return $beer;
     }
 
     public function id(): BeerId

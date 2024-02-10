@@ -7,8 +7,8 @@ parameters:
 
 services:
     _instanceof:
-        App\Shared\Domain\Command\AppCommandHandler:
-            tags: [ { name: messenger.message_handler } ]
+        App\Shared\Application\Handler\AppCommandHandler:
+            tags: [ messenger.message_handler ]
     _defaults:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
@@ -17,11 +17,10 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
-    App\Application\Query\:
+    App\Application\Handler\:
         autowire: true
         autoconfigure: false
-        resource: '../src/Application/Query/*Handler.php'
-        tags: [ { name: messenger.message_handler } ]
+        resource: '../src/Application/Handler'
     App\Application\Service\:
         autowire: true
         autoconfigure: true
@@ -30,7 +29,7 @@ services:
         autowire: true
         autoconfigure: true
         resource: '../src/Entrypoint/Controller'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
     App\Infrastructure\Persistence\Mysql\Repository\:
         autoconfigure: true
         autowire: true
@@ -38,13 +37,15 @@ services:
         resource: '../src/Infrastructure/Persistence/Mysql/Repository'
         bind:
             Doctrine\DBAL\Connection $connection: '@doctrine_connection.dbal'
-    App\Shared\Infrastructure\:
+
+    App\Infrastructure\Provider\:
         autowire: true
+        resource: '../src/Infrastructure/Provider'
+
+    App\Shared\:
         autoconfigure: true
-        public: true
-        resource: '../src/Shared/Infrastructure'
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+        autowire: true
+        resource: '../src/Shared'
 
 imports:
     - { resource: app/middleware.yaml }
