@@ -1,0 +1,9 @@
+index:
+    path: /
+    controller: App\Entrypoint\Controller\IndexController
+beer_retriever:
+    path: beer
+    controller: App\Entrypoint\Controller\BeerRetrieverController
+beer_create:
+    path: beer/create
+    controller: App\Entrypoint\Controller\BeerCreateController

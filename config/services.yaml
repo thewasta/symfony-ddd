@@ -1,0 +1,52 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    _instanceof:
+        App\Shared\Application\Handler\AppCommandHandler:
+            tags: [ messenger.message_handler ]
+    _defaults:
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+    App\Application\Handler\:
+        autowire: true
+        autoconfigure: false
+        resource: '../src/Application/Handler'
+    App\Application\Service\:
+        autowire: true
+        autoconfigure: true
+        resource: '../src/Application/Service/*/*er.php'
+    App\Entrypoint\Controller\:
+        autowire: true
+        autoconfigure: true
+        resource: '../src/Entrypoint/Controller'
+        tags: [ 'controller.service_arguments' ]
+    App\Infrastructure\Persistence\Mysql\Repository\:
+        autoconfigure: true
+        autowire: true
+        public: true
+        resource: '../src/Infrastructure/Persistence/Mysql/Repository'
+        bind:
+            Doctrine\DBAL\Connection $connection: '@doctrine_connection.dbal'
+
+    App\Infrastructure\Provider\:
+        autowire: true
+        resource: '../src/Infrastructure/Provider'
+
+    App\Shared\:
+        autoconfigure: true
+        autowire: true
+        resource: '../src/Shared'
+
+imports:
+    - { resource: app/middleware.yaml }
+    - { resource: app/connections.yaml }

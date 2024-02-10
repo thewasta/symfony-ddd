@@ -1,0 +1,45 @@
+version: "3"
+services:
+  nginx:
+    image: local-nginx:dev
+    build:
+      context: .
+      dockerfile: docker/nginx/nginx.dockerfile
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      - app
+  app:
+    image: local-app:dev
+    build:
+      context: .
+      dockerfile: docker/php/php.dockerfile
+    environment:
+      XDEBUG_KEY: ${XDEBUG_KEY:-PHPSTORM-XDEBUG}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG:-serverName=PHPSTORM_XDEBUG}
+    ports:
+      - 9000
+    volumes:
+      - ./:/var/www/html:rw,cached
+      - /var/www/html/vendor
+      - ./php/conf.d/php.dev.ini:/usr/local/etc/php/conf.d/php.ini
+  database:
+    hostname: mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-main}
+    ports:
+      - "3306:3306"
+  mock:
+    image: local-mockserver:dev
+    build:
+      dockerfile: docker/mock/mock.dockerfile
+    volumes:
+      - mockserver:/root/.castlemock:cached
+    ports:
+      - "9001:8080"
+volumes:
+  mockserver:

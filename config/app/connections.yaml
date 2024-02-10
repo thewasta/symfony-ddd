@@ -1,0 +1,14 @@
+services:
+    doctrine_connection.dbal:
+        class: Doctrine\DBAL\Connection
+        factory: 'Doctrine\DBAL\DriverManager::getConnection'
+        arguments:
+            $params:
+                dbname: '%env(MYSQL_DATABASE)%'
+                user: '%env(MYSQL_USER)%'
+                password: '%env(MYSQL_PASSWORD)%'
+                host: '%env(MYSQL_HOST)%'
+                driver: 'pdo_mysql'
+            $config: '@doctrine_configuration'
+    doctrine_configuration:
+        class: Doctrine\DBAL\Configuration

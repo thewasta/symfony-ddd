@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+    middleware.example:
+        class: App\Shared\Infrastructure\MessageBus\Middleware\ExampleCustomMiddleware
+        autowire: true
+    middleware.transaction:
+        class: App\Shared\Infrastructure\MessageBus\Middleware\MysqlTransactionMiddleware
+        arguments:
+            - '@doctrine_connection.dbal'
+        autowire: true
