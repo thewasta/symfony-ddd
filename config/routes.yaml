@@ -1,6 +1,15 @@
 index:
     path: /
     controller: App\Entrypoint\Controller\IndexController
+logout:
+    path: /logout
+    controller: App\Entrypoint\Controller\User\UserLogoutController
+login:
+    path: /login
+    controller: App\Entrypoint\Controller\User\UserLoginController
+login_callback:
+    path: /callback
+    controller: App\Entrypoint\Controller\User\UserLoginController::callback
 beer_retriever:
     path: beer
     controller: App\Entrypoint\Controller\BeerRetrieverController

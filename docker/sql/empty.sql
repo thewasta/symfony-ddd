@@ -1,57 +1,144 @@
-create table if not exists doctrine_migration_versions
+CREATE TABLE IF NOT EXISTS `sessions`
 (
-    version        varchar(191) not null
-        primary key,
-    executed_at    datetime     null,
-    execution_time int          null
+    `sess_id` VARBINARY
+(
+    128
+) NOT NULL PRIMARY KEY,
+    `sess_data` BLOB NOT NULL,
+    `sess_lifetime` INTEGER UNSIGNED NOT NULL,
+    `sess_time` INTEGER UNSIGNED NOT NULL,
+    INDEX `sessions_sess_lifetime_idx`
+(
+    `sess_lifetime`
 )
+    ) COLLATE utf8mb4_bin, ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS doctrine_migration_versions
+(
+    version varchar
+(
+    191
+) not null
+    primary key,
+    executed_at datetime null,
+    execution_time int null
+    )
     collate = utf8mb3_unicode_ci;
 
-create table if not exists user
+CREATE TABLE IF NOT EXISTS user
 (
-    id         int auto_increment
-        primary key,
-    uuid       char(36)                            not null,
-    first_name varchar(50)                         not null,
-    last_name  varchar(50)                         not null,
-    email      varchar(100)                        not null,
-    password   varchar(255)                        not null,
+    id
+    int
+    auto_increment
+    primary
+    key,
+    uuid
+    char
+(
+    36
+) not null,
+    first_name varchar
+(
+    50
+) not null,
+    last_name varchar
+(
+    50
+) not null,
+    email varchar
+(
+    100
+) not null,
+    password varchar
+(
+    255
+) not null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp default CURRENT_TIMESTAMP null,
     constraint email_unique
-        unique (email),
+    unique
+(
+    email
+),
     constraint idx_uuid
-        unique (uuid)
-);
+    unique
+(
+    uuid
+)
+    );
 
 create table if not exists posts
 (
-    uuid          char(36)                            not null
-        primary key,
-    user_uuid     char(36)                            not null,
+    uuid char
+(
+    36
+) not null
+    primary key,
+    user_uuid char
+(
+    36
+) not null,
     creation_date timestamp default CURRENT_TIMESTAMP not null,
-    likes         int       default 0                 not null,
-    author        varchar(100)                        not null,
-    file_path     varchar(255)                        not null,
+    likes int default 0 not null,
+    author varchar
+(
+    100
+) not null,
+    file_path varchar
+(
+    255
+) not null,
     constraint idx_post_uuid
-        unique (uuid),
+    unique
+(
+    uuid
+),
     constraint fk_user
-        foreign key (user_uuid) references user (uuid)
-);
+    foreign key
+(
+    user_uuid
+) references user
+(
+    uuid
+)
+    );
 
 create table if not exists comments
 (
-    id            int auto_increment
-        primary key,
-    post_uuid     char(36)                            not null,
-    user_uuid     char(36)                            not null,
-    comment_text  text                                not null,
+    id
+    int
+    auto_increment
+    primary
+    key,
+    post_uuid
+    char
+(
+    36
+) not null,
+    user_uuid char
+(
+    36
+) not null,
+    comment_text text not null,
     creation_date timestamp default CURRENT_TIMESTAMP not null,
     constraint comments_ibfk_1
-        foreign key (post_uuid) references posts (uuid),
+    foreign key
+(
+    post_uuid
+) references posts
+(
+    uuid
+),
     constraint comments_ibfk_2
-        foreign key (user_uuid) references user (uuid)
-);
+    foreign key
+(
+    user_uuid
+) references user
+(
+    uuid
+)
+    );
 
 create index post_uuid
     on comments (post_uuid);
@@ -61,14 +148,36 @@ create index user_uuid
 
 create table if not exists likes
 (
-    user_uuid char(36) not null,
-    post_uuid char(36) not null,
-    primary key (user_uuid, post_uuid),
+    user_uuid char
+(
+    36
+) not null,
+    post_uuid char
+(
+    36
+) not null,
+    primary key
+(
+    user_uuid,
+    post_uuid
+),
     constraint likes_ibfk_1
-        foreign key (user_uuid) references user (uuid),
+    foreign key
+(
+    user_uuid
+) references user
+(
+    uuid
+),
     constraint likes_ibfk_2
-        foreign key (post_uuid) references posts (uuid)
-);
+    foreign key
+(
+    post_uuid
+) references posts
+(
+    uuid
+)
+    );
 
 create index post_uuid
     on likes (post_uuid);

@@ -5,11 +5,14 @@ namespace App\Shared\Entrypoint\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class BaseController extends AbstractController
+abstract class BaseController extends AbstractController
 {
-    public function response(string $message, array $response = null, int $code = 100): JsonResponse
-    {
-        $httpCodeStatus = $code < 300 ? 200 : 400;
+    public function response(
+        string $message,
+        int $httpCode = 200,
+        array $response = null,
+        int $code = 100
+    ): JsonResponse {
         $messageResponse = [
             "code" => $code,
             $message => $message,
@@ -17,7 +20,7 @@ class BaseController extends AbstractController
         ];
         return new JsonResponse(
             $messageResponse,
-            $httpCodeStatus,
+            $httpCode,
             [
                 "Content-Type" => "application/json"
             ]

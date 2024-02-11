@@ -13,6 +13,23 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
         public: false
+        bind:
+            $auth0Domain: '%env(AUTH0_DOMAIN)%'
+            $auth0ClientId: '%env(AUTH0_CLIENT_ID)%'
+            $auth0ClientSecret: '%env(AUTH0_CLIENT_SECRET)%'
+            $auth0Audience: '%env(AUTH0_AUDIENCE)%'
+            $auth0Cookie: '%env(COOKIE_SECRET)%'
+            $auth0Callback: '%env(LOGIN_REDIRECT_URI)%'
+            $auth0ManagementToken: '%env(AUTH0_MANAGEMENT_TOKEN)%'
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+            - { db_table: sessions,
+                db_id_col: sess_id,
+                db_data_col: sess_data,
+                db_time_col: sess_time,
+                db_lifetime: 1440,
+                db_host: mysql }
     App\:
         resource: '../src/'
         exclude:

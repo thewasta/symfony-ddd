@@ -28,9 +28,14 @@ services:
   database:
     hostname: mysql
     image: mysql:8.0
+    volumes:
+      - ./docker/sql:/dumps
+      - db-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-main}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
     ports:
       - "3306:3306"
   mock:
@@ -43,3 +48,4 @@ services:
       - "9001:8080"
 volumes:
   mockserver:
+  db-data:
