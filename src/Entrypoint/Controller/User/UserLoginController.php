@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Entrypoint\Controller\User;
 
 use App\Shared\Infrastructure\Security\Auth0Base;
-use Auth0\SDK\Auth0;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class UserLoginController extends AbstractController
 {
@@ -20,7 +22,10 @@ class UserLoginController extends AbstractController
         return $this->redirect($this->auth0Base->auth0->login());
     }
 
-    public function callback(Request $request, SessionInterface $session): void
+    public function callback(Request $request, SessionInterface $session): void {}
+
+    public function loginSuccess(): JsonResponse
     {
+        return new JsonResponse(["success" => true]);
     }
 }

@@ -58,7 +58,10 @@ services:
     App\Infrastructure\Provider\:
         autowire: true
         resource: '../src/Infrastructure/Provider'
-
+    App\Infrastructure\Subscriber\:
+        autowire: true
+        autoconfigure: true
+        resource: '../src/Infrastructure/Subscriber'
     App\Shared\:
         autoconfigure: true
         autowire: true

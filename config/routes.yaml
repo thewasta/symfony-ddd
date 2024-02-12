@@ -10,9 +10,7 @@ login:
 login_callback:
     path: /callback
     controller: App\Entrypoint\Controller\User\UserLoginController::callback
-beer_retriever:
-    path: beer
-    controller: App\Entrypoint\Controller\BeerRetrieverController
-beer_create:
-    path: beer/create
-    controller: App\Entrypoint\Controller\BeerCreateController
+
+login_success:
+    path: /app/loginSuccess
+    controller: App\Entrypoint\Controller\User\UserLoginController::loginSuccess

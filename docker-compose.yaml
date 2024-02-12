@@ -23,7 +23,6 @@ services:
       - 9000
     volumes:
       - ./:/var/www/html:rw,cached
-      - /var/www/html/vendor
       - ./php/conf.d/php.dev.ini:/usr/local/etc/php/conf.d/php.ini
   database:
     hostname: mysql

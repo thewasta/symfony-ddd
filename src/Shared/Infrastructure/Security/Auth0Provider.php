@@ -103,6 +103,7 @@ final class Auth0Provider implements UserProviderInterface
         foreach ($userRoles as $role) {
             $roles[] = $role->name;
         }
+        $roles[] = "IS_AUTHENTICATED_FULLY";
         return $roles;
     }
 }
