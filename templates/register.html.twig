@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Login Page!
+{% endblock %}
+{% block body %}
+    <div class="flex flex-col h-screen justify-center bg-gray-100">
+        <form method="post">
+            <div class="mx-auto max-w-sm space-y-6">
+                <div class="space-y-2 text-center">
+                    <h1 class="text-3xl font-bold">Crea tu cuenta</h1>
+                    <p class="text-gray-500 dark:text-gray-400">Escribe la información para tu cuenta</p>
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="nickname"
+                    >
+                        Nombre de usuario
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="nickname"
+                            name="nickname"
+                            placeholder="john_doe"
+                            required
+                    />
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="email"
+                    >
+                        Correo Electrónico
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="email"
+                            name="email"
+                            placeholder="m@example.com"
+                            required
+                            type="email"
+                    />
+                </div>
+                <div class="space-y-2">
+                    <label
+                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="name"
+                    >
+                        Nombre
+                    </label>
+                    <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="name"
+                            name="name"
+                            placeholder="John Doe"
+                            required
+                    />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md
+                        text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none
+                        focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                        disabled:pointer-events-none disabled:opacity-50 bg-slate-800 text-primary-foreground
+                        text-white
+                        hover:bg-slate-900 h-10 px-4 py-2 w-full"
+                            type="submit"
+                    >
+                        Registrarse
+                    </button>
+                    <a href="/signin"
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md
+                        text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none
+                        focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                        disabled:pointer-events-none disabled:opacity-50 bg-slate-800 text-primary-foreground
+                        text-white
+                        hover:bg-slate-900 h-10 px-4 py-2 w-full
+                        hover:mouse-cursor:pointer"
+
+                    >
+                        Acceder
+                    </a>
+                </div>
+                <div class="space-y-2 max-w-sm space-y-6">
+                    <p class="text-red-400">Escribe la información para tu cuenta</p>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

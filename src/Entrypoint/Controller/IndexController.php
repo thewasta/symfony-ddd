@@ -3,14 +3,25 @@
 namespace App\Entrypoint\Controller;
 
 use App\Shared\Entrypoint\Controller\BaseController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class IndexController extends BaseController
 {
-    public function __invoke(Request $request, SessionInterface $session): JsonResponse
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function __invoke(Request $request, SessionInterface $session, CacheInterface $cache): Response
     {
-        return $this->response("HOLA");
+        if (!$this->container->get('security.token_storage')->getToken()) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->redirectToRoute('auth0_login_callback');
     }
 }

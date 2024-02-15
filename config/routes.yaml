@@ -4,13 +4,15 @@ index:
 logout:
     path: /logout
     controller: App\Entrypoint\Controller\User\UserLogoutController
-login:
+    methods: [ POST ]
+app_login:
     path: /login
     controller: App\Entrypoint\Controller\User\UserLoginController
-login_callback:
+    methods: [ GET ]
+auth0_login_callback:
     path: /callback
     controller: App\Entrypoint\Controller\User\UserLoginController::callback
 
-login_success:
-    path: /app/loginSuccess
-    controller: App\Entrypoint\Controller\User\UserLoginController::loginSuccess
+app_login_success:
+    path: /app
+    controller: App\Entrypoint\Controller\User\UserLoginController::success

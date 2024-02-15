@@ -29,7 +29,7 @@ final class Auth0Authenticator extends AbstractAuthenticator
 
     private SdkConfiguration $configuration;
 
-    private const AUTH0_CALLBACK_ROUTE = 'login_callback';
+    private const AUTH0_CALLBACK_ROUTE = 'auth0_login_callback';
 
     private Auth0 $auth0;
 
@@ -60,7 +60,12 @@ final class Auth0Authenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === self::AUTH0_CALLBACK_ROUTE;
+        try {
+            $this->auth0->exchange();
+            return $request->attributes->get('_route') === self::AUTH0_CALLBACK_ROUTE;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -78,7 +83,7 @@ final class Auth0Authenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new RedirectResponse($this->router->generate('login_success'));
+        return new RedirectResponse($this->router->generate('app_login_success'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
