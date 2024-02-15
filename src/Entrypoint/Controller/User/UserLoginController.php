@@ -6,6 +6,8 @@ namespace App\Entrypoint\Controller\User;
 
 use App\Shared\Infrastructure\Security\Auth0Base;
 use Auth0\SDK\Exception\ConfigurationException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +18,16 @@ class UserLoginController extends AbstractController
     public function __construct(private readonly Auth0Base $auth0) {}
 
     /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws ConfigurationException
      */
     public function __invoke(Request $request, SessionInterface $session): Response
     {
-        return $this->redirect($this->auth0->getAuth()->login());
+        if (!$this->container->get('security.token_storage')->getToken()) {
+            return $this->redirect($this->auth0->getAuth()->login());
+        }
+        return $this->redirectToRoute('app_login_success');
     }
 
     public function callback(): Response
@@ -28,6 +35,10 @@ class UserLoginController extends AbstractController
         return $this->redirectToRoute('index');
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function success(): Response
     {
         if (!$this->container->get('security.token_storage')->getToken()) {

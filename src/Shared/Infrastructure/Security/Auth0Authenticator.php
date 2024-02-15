@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Security;
 
-use Auth0\SDK\API\Authentication;
 use Auth0\SDK\Auth0;
 use Auth0\SDK\Configuration\SdkConfiguration;
 use Auth0\SDK\Exception\ConfigurationException;
@@ -46,6 +45,7 @@ final class Auth0Authenticator extends AbstractAuthenticator
         string $auth0ManagementToken,
         private readonly RouterInterface $router
     ) {
+
         $this->configuration = new SdkConfiguration(
             domain: $auth0Domain,
             clientId: $auth0ClientId,
@@ -61,7 +61,10 @@ final class Auth0Authenticator extends AbstractAuthenticator
     public function supports(Request $request): ?bool
     {
         try {
-            $this->auth0->exchange();
+            if ($request->attributes->get('_route') !== self::AUTH0_CALLBACK_ROUTE) {
+                return false;
+            }
+            $this->auth0->getCredentials();
             return $request->attributes->get('_route') === self::AUTH0_CALLBACK_ROUTE;
         } catch (\Exception $e) {
             return false;
