@@ -8,7 +8,7 @@ class BoolValueObject implements ValueObject
 {
     final private function __construct(private readonly bool $value) {}
 
-    public static function from(bool $value): self
+    public static function from(bool $value): static
     {
         return new static($value);
     }

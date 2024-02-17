@@ -5,8 +5,17 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Security;
 
 use App\Domain\Model\User\User;
-use App\Shared\Domain\Model\ValueObject\DateTimeValueObject;
-use Auth0\SDK\API\Authentication;
+use App\Domain\Model\User\ValueObject\UserAccessToken;
+use App\Domain\Model\User\ValueObject\UserAuth0Id;
+use App\Domain\Model\User\ValueObject\UserEmail;
+use App\Domain\Model\User\ValueObject\UserEmailVerified;
+use App\Domain\Model\User\ValueObject\UserFirstName;
+use App\Domain\Model\User\ValueObject\UserLastLogin;
+use App\Domain\Model\User\ValueObject\UserLastName;
+use App\Domain\Model\User\ValueObject\UserLoginCount;
+use App\Domain\Model\User\ValueObject\UserNickName;
+use App\Domain\Model\User\ValueObject\UserPhoto;
+use App\Domain\Model\User\ValueObject\UserUpdatedAt;
 use Auth0\SDK\API\Management;
 use Auth0\SDK\Configuration\SdkConfiguration;
 use Auth0\SDK\Exception\ArgumentException;
@@ -86,20 +95,18 @@ final class Auth0Provider implements UserProviderInterface
         $userAuth0 = $auth0Management->users()->get($userData["user"]["sub"]);
         $userRoles = json_decode($userRolesResponse->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
         $parseUserAuth = json_decode($userAuth0->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        return new User(
-            userId: $userData['user']['sub'],
-            userName: $userData['user']['nickname'],
-            email: $userData['user']['email'],
-            photo: $userData['user']["picture"],
-            firstName: $userData['user']["name"],
-            updatedAt: isset($userData['user']['updated_at']) ? DateTimeValueObject::from(
-                $userData['user']['updated_at']
-            ) : DateTimeValueObject::now(),
-            lastLogin: DateTimeValueObject::from($parseUserAuth["last_login"]),
-            emailVerified: $userData["user"]["email_verified"],
-            lastName: $userData['user']["name"],
-            accessToken: $userData["access_token"] ?? null,
-            totalLogin: $parseUserAuth["logins_count"],
+        return User::create(
+            userId: UserAuth0Id::from($userData['user']['sub']),
+            userName: UserNickName::from($userData['user']['nickname']),
+            email: UserEmail::from($userData['user']['email']),
+            photo: UserPhoto::from($userData['user']["picture"]),
+            firstName: UserFirstName::from($userData['user']["name"]),
+            updatedAt: UserUpdatedAt::from($userData['user']['updated_at']),
+            lastLogin: UserLastLogin::from($parseUserAuth["last_login"]),
+            emailVerified: UserEmailVerified::from($userData["user"]["email_verified"]),
+            totalLogin: UserLoginCount::from($parseUserAuth["logins_count"]),
+            lastName: UserLastName::from($userData['user']["name"]),
+            accessToken: UserAccessToken::from($userData["access_token"] ?? ""),
             roles: $this->roles($userRoles)
         );
     }

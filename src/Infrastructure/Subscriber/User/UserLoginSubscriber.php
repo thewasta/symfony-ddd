@@ -29,15 +29,15 @@ class UserLoginSubscriber implements EventSubscriberInterface
             $user = $event->getUser();
             $query = $this->connection->createQueryBuilder();
             $query->select('*')->from('user')->where('email = :email');
-            $query->setParameter('email', $user->email());
+            $query->setParameter('email', $user->email()->value());
             $query->executeStatement();
             $result = $query->fetchAllAssociative();
             if ([] === $result) {
                 $this->logger->info(
                     'User not found',
                     [
-                        'email' => $user->email(),
-                        'username' => $user->username()
+                        'email' => $user->email()->value(),
+                        'username' => $user->username()->value()
                     ]
                 );
                 $insertQuery = $this->connection->createQueryBuilder();
@@ -51,11 +51,11 @@ class UserLoginSubscriber implements EventSubscriberInterface
                               'last_name' => ':last_name',
                           ]
                       );
-                $insertQuery->setParameter('uuid', $user->userId());
-                $insertQuery->setParameter('email', $user->email());
-                $insertQuery->setParameter('username', $user->username());
-                $insertQuery->setParameter('first_name', $user->userName());
-                $insertQuery->setParameter('last_name', $user->userName());
+                $insertQuery->setParameter('uuid', $user->userId()->value());
+                $insertQuery->setParameter('email', $user->email()->value());
+                $insertQuery->setParameter('username', $user->username()->value());
+                $insertQuery->setParameter('first_name', $user->userName()->value());
+                $insertQuery->setParameter('last_name', $user->userName()->value());
                 $insertQuery->executeStatement();
             }
             $this->connection->commit();

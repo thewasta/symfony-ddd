@@ -4,7 +4,7 @@ namespace App\Shared\Domain\Model\ValueObject;
 
 use App\Shared\Domain\Model\ValueObject;
 
-class StringValueObject implements ValueObject
+abstract class StringValueObject implements ValueObject
 {
     final private function __construct(private readonly string $value) {}
 

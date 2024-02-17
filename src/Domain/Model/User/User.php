@@ -4,93 +4,126 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\User;
 
-use DateTimeImmutable;
+use App\Domain\Model\User\ValueObject\UserAccessToken;
+use App\Domain\Model\User\ValueObject\UserAuth0Id;
+use App\Domain\Model\User\ValueObject\UserEmail;
+use App\Domain\Model\User\ValueObject\UserEmailVerified;
+use App\Domain\Model\User\ValueObject\UserExpiredAccessToken;
+use App\Domain\Model\User\ValueObject\UserFirstName;
+use App\Domain\Model\User\ValueObject\UserLastLogin;
+use App\Domain\Model\User\ValueObject\UserLastName;
+use App\Domain\Model\User\ValueObject\UserLoginCount;
+use App\Domain\Model\User\ValueObject\UserNickName;
+use App\Domain\Model\User\ValueObject\UserPhoto;
+use App\Domain\Model\User\ValueObject\UserUpdatedAt;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface
 {
-    public function __construct(
-        private string $userId,
-        private string $userName,
-        private string $email,
-        private string $photo,
-        private string $firstName,
-        private ?DateTimeImmutable $updatedAt,
-        private ?DateTimeImmutable $lastLogin,
-        private ?bool $emailVerified = false,
-        private ?string $lastName = null,
-        private ?string $accessToken = null,
-        private ?bool $accessTokenExpired = null,
-        private int $totalLogin = 0,
-        private ?array $roles = [],
+    private function __construct(
+        private readonly UserAuth0Id $userId,
+        private readonly UserNickName $userName,
+        private readonly UserEmail $email,
+        private readonly UserPhoto $photo,
+        private readonly UserFirstName $firstName,
+        private readonly ?UserUpdatedAt $updatedAt,
+        private readonly ?UserLastLogin $lastLogin,
+        private readonly ?UserEmailVerified $emailVerified,
+        private readonly UserLoginCount $totalLogin,
+        private readonly ?UserLastName $lastName = null,
+        private readonly ?UserAccessToken $accessToken = null,
+        private readonly ?UserExpiredAccessToken $accessTokenExpired = null,
+        private readonly ?array $roles = [],
     ) {}
 
-    public function userId(): string
+    public static function create(
+        UserAuth0Id $userId,
+        UserNickName $userName,
+        UserEmail $email,
+        UserPhoto $photo,
+        UserFirstName $firstName,
+        ?UserUpdatedAt $updatedAt,
+        UserLastLogin $lastLogin,
+        UserEmailVerified $emailVerified,
+        UserLoginCount $totalLogin,
+        ?UserLastName $lastName = null,
+        ?UserAccessToken $accessToken = null,
+        ?UserExpiredAccessToken $accessTokenExpired = null,
+        ?array $roles = [],
+    ): self {
+        return new self(
+            $userId,
+            $userName,
+            $email,
+            $photo,
+            $firstName,
+            $updatedAt,
+            $lastLogin,
+            $emailVerified,
+            $totalLogin,
+            $lastName,
+            $accessToken,
+            $accessTokenExpired,
+            $roles
+        );
+    }
+
+    public function userId(): UserAuth0Id
     {
         return $this->userId;
     }
 
-    public function userName(): ?string
+    public function userName(): UserNickName
     {
         return $this->userName;
     }
 
-    public function email(): ?string
+    public function email(): UserEmail
     {
         return $this->email;
     }
 
-    public function updatedAt(): ?DateTimeImmutable
+    public function updatedAt(): UserUpdatedAt
     {
         return $this->updatedAt;
     }
 
-    public function setAccessToken(?string $accessToken): void
-    {
-        $this->accessToken = $accessToken;
-    }
-
-    public function setAccessTokenExpired(?bool $accessTokenExpired): void
-    {
-        $this->accessTokenExpired = $accessTokenExpired;
-    }
-
-    public function accessToken(): ?string
+    public function accessToken(): ?UserAccessToken
     {
         return $this->accessToken;
     }
 
-    public function accessTokenExpired(): ?bool
+    public function accessTokenExpired(): ?UserExpiredAccessToken
     {
         return $this->accessTokenExpired;
     }
 
-    public function photo(): string
+    public function photo(): UserPhoto
     {
         return $this->photo;
     }
 
-    public function firstName(): string
+    public function firstName(): UserFirstName
     {
         return $this->firstName;
     }
 
-    public function lastLogin(): ?DateTimeImmutable
+    public function lastLogin(): UserLastLogin
     {
         return $this->lastLogin;
     }
 
-    public function emailVerified(): ?bool
+    public function emailVerified(): UserEmailVerified
     {
         return $this->emailVerified;
     }
 
-    public function lastName(): ?string
+    public function lastName(): ?UserLastName
     {
         return $this->lastName;
     }
 
-    public function totalLogin(): int
+    public function totalLogin(): UserLoginCount
     {
         return $this->totalLogin;
     }
@@ -110,6 +143,6 @@ class User implements UserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->userId;
+        return $this->userId()->value();
     }
 }
