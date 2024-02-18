@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\User;
 
+use App\Domain\Events\User\UserCreated;
 use App\Domain\Model\User\ValueObject\UserAccessToken;
 use App\Domain\Model\User\ValueObject\UserAuth0Id;
 use App\Domain\Model\User\ValueObject\UserEmail;
@@ -16,9 +17,10 @@ use App\Domain\Model\User\ValueObject\UserLoginCount;
 use App\Domain\Model\User\ValueObject\UserNickName;
 use App\Domain\Model\User\ValueObject\UserPhoto;
 use App\Domain\Model\User\ValueObject\UserUpdatedAt;
+use App\Shared\Domain\Model\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface
+final class User extends Model implements UserInterface
 {
     private function __construct(
         private readonly UserAuth0Id $userId,
@@ -51,7 +53,7 @@ class User implements UserInterface
         ?UserExpiredAccessToken $accessTokenExpired = null,
         ?array $roles = [],
     ): self {
-        return new self(
+        $user = new self(
             $userId,
             $userName,
             $email,
@@ -66,6 +68,8 @@ class User implements UserInterface
             $accessTokenExpired,
             $roles
         );
+        $user->publish(new UserCreated());
+        return $user;
     }
 
     public function userId(): UserAuth0Id
@@ -144,5 +148,17 @@ class User implements UserInterface
     public function getUserIdentifier(): string
     {
         return $this->userId()->value();
+    }
+
+    public function toArray(): array
+    {
+        return [
+            "userId" => $this->userId()->value(),
+            "userName" => $this->userName()->value(),
+            "email" => $this->email()->value(),
+            "photo" => $this->photo()->value(),
+            "firstName" => $this->firstName()->value(),
+            "updatedAt" => $this->updatedAt()->value(),
+        ];
     }
 }

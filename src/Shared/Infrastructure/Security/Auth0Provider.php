@@ -95,8 +95,9 @@ final class Auth0Provider implements UserProviderInterface
         $userAuth0 = $auth0Management->users()->get($userData["user"]["sub"]);
         $userRoles = json_decode($userRolesResponse->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
         $parseUserAuth = json_decode($userAuth0->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        $userAuthId = explode('|', $userData['user']['sub'])[1];
         return User::create(
-            userId: UserAuth0Id::from($userData['user']['sub']),
+            userId: UserAuth0Id::from($userAuthId),
             userName: UserNickName::from($userData['user']['nickname']),
             email: UserEmail::from($userData['user']['email']),
             photo: UserPhoto::from($userData['user']["picture"]),

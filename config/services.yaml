@@ -21,6 +21,7 @@ services:
             $auth0Cookie: '%env(COOKIE_SECRET)%'
             $auth0Callback: '%env(LOGIN_REDIRECT_URI)%'
             $auth0ManagementToken: '%env(AUTH0_MANAGEMENT_TOKEN)%'
+            $uploadsPath: '%kernel.project_dir%/public/uploads'
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'
@@ -47,11 +48,11 @@ services:
         autoconfigure: true
         resource: '../src/Entrypoint/Controller'
         tags: [ 'controller.service_arguments' ]
-    App\Infrastructure\Persistence\Mysql\Repository\:
+    App\Infrastructure\Persistence\Mysql\:
         autoconfigure: true
         autowire: true
         public: true
-        resource: '../src/Infrastructure/Persistence/Mysql/Repository'
+        resource: '../src/Infrastructure/Persistence/Mysql/'
         bind:
             Doctrine\DBAL\Connection $connection: '@doctrine_connection.dbal'
 
@@ -62,6 +63,10 @@ services:
         autowire: true
         autoconfigure: true
         resource: '../src/Infrastructure/Subscriber'
+    App\Domain\Service\:
+        autowire: true
+        autoconfigure: true
+        resource: '../src/Domain/Service/*/*r.php'
     App\Shared\:
         autoconfigure: true
         autowire: true

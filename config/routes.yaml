@@ -16,3 +16,8 @@ auth0_login_callback:
 app_login_success:
     path: /app
     controller: App\Entrypoint\Controller\User\UserLoginController::success
+
+app_post_publish:
+    path: /app/post/publish
+    controller: App\Entrypoint\Controller\Post\PublishPostController
+    methods: [ POST ]

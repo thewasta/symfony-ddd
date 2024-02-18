@@ -1,4 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h2>User Successfully login</h2>
+    <form method="post" action="{{ path('app_post_publish') }}" enctype="multipart/form-data">
+        <label>
+            <textarea class="border-red" name="message"></textarea>
+        </label>
+        <input type="file" name="file_01">
+        <button type="submit">Publicar</button>
+    </form>
 {% endblock %}

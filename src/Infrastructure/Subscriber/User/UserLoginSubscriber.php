@@ -44,7 +44,7 @@ class UserLoginSubscriber implements EventSubscriberInterface
                 $insertQuery->insert('user')
                       ->values(
                           [
-                              'uuid' => ':uuid',
+                              'auth0_id' => ':uuid',
                               'email' => ':email',
                               'username' => ':username',
                               'first_name' => ':first_name',
@@ -60,6 +60,7 @@ class UserLoginSubscriber implements EventSubscriberInterface
             }
             $this->connection->commit();
         } catch (\Exception $exception) {
+            $this->logger->error($exception);
             $this->connection->rollBack();
         }
     }
