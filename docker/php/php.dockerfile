@@ -28,7 +28,13 @@ COPY src src/
 COPY .env ./
 
 RUN chmod +x bin/console; sync
-
+VOLUME /var/www/html/var
 RUN set -eux; \
     composer install --no-scripts --no-progress --prefer-dist --no-interaction --optimize-autoloader; \
     composer clear-cache
+COPY docker/php/php-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+EXPOSE 9000
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]
