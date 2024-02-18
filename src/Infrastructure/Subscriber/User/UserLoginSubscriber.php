@@ -49,13 +49,19 @@ class UserLoginSubscriber implements EventSubscriberInterface
                               'username' => ':username',
                               'first_name' => ':first_name',
                               'last_name' => ':last_name',
+                              'profile_photo' => ':profile_photo',
+                              'last_login' => ':last_login',
+                              'email_verified' => ':email_verified',
                           ]
                       );
                 $insertQuery->setParameter('uuid', $user->userId()->value());
                 $insertQuery->setParameter('email', $user->email()->value());
                 $insertQuery->setParameter('username', $user->username()->value());
-                $insertQuery->setParameter('first_name', $user->userName()->value());
-                $insertQuery->setParameter('last_name', $user->userName()->value());
+                $insertQuery->setParameter('first_name', $user->firstName()->value());
+                $insertQuery->setParameter('last_name', $user->lastName()->value());
+                $insertQuery->setParameter('profile_photo', $user->photo()->value());
+                $insertQuery->setParameter('last_login', $user->lastLogin()->value());
+                $insertQuery->setParameter('email_verified', $user->emailVerified()->value());
                 $insertQuery->executeStatement();
             }
             $this->connection->commit();

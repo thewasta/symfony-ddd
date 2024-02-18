@@ -9,13 +9,14 @@ use App\Domain\Model\Post\ValueObject\PostLikes;
 use App\Domain\Model\Post\ValueObject\PostMediaPath;
 use App\Domain\Model\Post\ValueObject\PostUserUuid;
 use App\Domain\Model\Post\ValueObject\PostUuid;
+use App\Domain\Model\User\User;
 use App\Shared\Domain\Model\Model;
 
 final class Post extends Model
 {
     private function __construct(
         private readonly PostUuid $id,
-        private readonly PostUserUuid $userId,
+        private readonly User $user,
         private readonly PostContentMessage $message,
         private readonly PostMediaPath $mediaPath,
         private readonly PostLikes $likes,
@@ -23,12 +24,12 @@ final class Post extends Model
 
     public static function create(
         PostUuid $id,
-        PostUserUuid $userId,
+        User $user,
         PostContentMessage $message,
         PostMediaPath $mediaPath,
         PostLikes $likes,
     ): self {
-        $post = new self($id, $userId, $message, $mediaPath, $likes);
+        $post = new self($id, $user, $message, $mediaPath, $likes);
         //$post->publish();
         return $post;
     }
@@ -38,9 +39,9 @@ final class Post extends Model
         return $this->id;
     }
 
-    public function userId(): PostUserUuid
+    public function user(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 
     public function message(): PostContentMessage

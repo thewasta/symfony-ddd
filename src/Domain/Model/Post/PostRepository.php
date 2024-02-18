@@ -7,4 +7,9 @@ namespace App\Domain\Model\Post;
 interface PostRepository
 {
     public function save(Post $post): void;
+
+    /**
+     * @return Post[]
+     */
+    public function getAll(): array;
 }

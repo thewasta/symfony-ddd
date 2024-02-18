@@ -28,6 +28,6 @@ final class PublishPostController extends BaseController
                 $this->getUser()
             )
         );
-        return $this->redirectToRoute('app_login_success');
+        return $this->redirectToRoute('app_feed');
     }
 }

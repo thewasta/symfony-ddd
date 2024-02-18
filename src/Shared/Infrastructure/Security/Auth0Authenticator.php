@@ -86,7 +86,7 @@ final class Auth0Authenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new RedirectResponse($this->router->generate('app_login_success'));
+        return new RedirectResponse($this->router->generate('app_feed'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

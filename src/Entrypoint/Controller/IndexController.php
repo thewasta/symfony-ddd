@@ -22,6 +22,6 @@ class IndexController extends BaseController
         if (!$this->container->get('security.token_storage')->getToken()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->redirectToRoute('app_login_success');
+        return $this->redirectToRoute('app_feed');
     }
 }

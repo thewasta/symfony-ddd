@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <!--
+    // v0 by Vercel.
+    // https://v0.dev/t/Oj1DzFNlgvZ
+    -->
+    <div class="min-h-screen bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-evenly py-4 bg-blue-500 text-white">
+
+                <a href="#" class="flex items-center">
+                    <img src="https://placehold.co/150x40" alt="Logo de tu Red Social" class="mr-4">
+                </a>
+                <div class="flex space-x-4 items-center">
+                    <a href="#" class="hover:underline">Inicio</a>
+                    <a href="#" class="hover:underline">Perfil</a>
+                    <a href="#" class="hover:underline">Mensajes</a>
+                    <input type="text" placeholder="Buscar" class="border rounded-md px-2 py-1">
+                </div>
+
+                <a href="{{ path('logout') }}" class="hover:underline">Salir</a>
+
+            </div>
+            {#            CONTENIDO PRINCIPAL DE PÁGINA #}
+            <div class="grid grid-cols-3 gap-4 py-4">
+                <div class="col-span-1">
+                    <div class="space-y-4">
+                        <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full" data-v0-t="card">
+                            <div class="p-6">
+                                <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                                    <img src="{{ user_photo }}">
+                                </span>
+                                <div class="mt-4"><p class="font-semibold">{{ user_name }}</p>
+                                    <p class="text-sm text-gray-600">3.2k seguidores · 104 fotos</p></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-md p-4"><h3 class="font-semibold mb-2">Invitar a amigos</h3><input
+                                    type="text"
+                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    placeholder="Buscar amigos"></div>
+                        <div class="bg-white rounded-md p-4"><h3 class="font-semibold mb-2">Eventos patrocinados</h3>
+                            <p class="text-sm">Conoce nuevos eventos</p></div>
+                        <div class="bg-white rounded-md p-4">
+                            <h3 class="font-semibold mb-2">Calendario</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    {% for key in feed %}
+                        <div class="space-y-4">
+                            <input type="text"
+                                   class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                                   placeholder="¿Qué está pasando?">
+                            <div class="bg-white rounded-md p-4 space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2"><span
+                                                    class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"><span
+                                                        class="flex h-full w-full items-center justify-center rounded-full bg-muted">NU</span></span>
+                                            <div><p class="font-semibold">{{ key.user_name }}</p>
+                                                <p class="text-xs text-gray-500">{{ key.feed_time }}</p></div>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                             stroke-linejoin="round" class="text-gray-500">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </div>
+                                    <p>{{ key.feed_description }}</p>
+                                    <img src="{{ key.feed_photo}}"
+                                         alt="Shared content"
+                                         class="w-full h-auto rounded-md"
+                                         width="300" height="300"
+                                         style="aspect-ratio:300/300;object-fit:cover">
+                                    <div class="flex items-center justify-between" data-id="39">
+                                        <div class="flex items-center space-x-2" data-id="40">
+                                            <div class="flex items-center space-x-2" data-id="41">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="h-5 w-5 text-red-500" data-id="42">
+                                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                                                </svg>
+                                                <span data-id="43">256</span></div>
+                                            <div class="flex items-center space-x-2" data-id="44">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="h-5 w-5 text-blue-500" data-id="45">
+                                                    <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path>
+                                                </svg>
+                                                <span data-id="46">128</span></div>
+                                        </div>
+                                        <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                                                data-id="47">Like
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
+                                Ver más
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-span-1">
+                    <div class="space-y-4">
+                        <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full" data-v0-t="card">
+                            <div class="p-6"><h3 class="font-semibold mb-2">Amigos en Messenger</h3>
+                                <input type="text"
+                                       class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mb-4"
+                                       placeholder="Buscar amigos">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2"><span
+                                                class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"><span
+                                                    class="flex h-full w-full items-center justify-center rounded-full bg-muted">NA</span></span>
+                                        <p class="font-semibold">Nombre Amigo</p></div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="text-gray-500">
+                                        <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-md p-4"><h3 class="font-semibold mb-2">Ajustes</h3>
+                            <div class="flex flex-col space-y-2"><a class="block text-sm" href="#" rel="ugc">Configuración
+                                    de la cuenta</a><a class="block text-sm" href="#" rel="ugc">Privacidad</a><a
+                                        class="block text-sm" href="#" rel="ugc">Ayuda</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

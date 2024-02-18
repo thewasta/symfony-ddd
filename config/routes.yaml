@@ -13,7 +13,7 @@ auth0_login_callback:
     path: /callback
     controller: App\Entrypoint\Controller\User\UserLoginController::callback
 
-app_login_success:
+app_feed:
     path: /app
     controller: App\Entrypoint\Controller\User\UserLoginController::success
 
